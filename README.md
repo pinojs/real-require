@@ -1,21 +1,51 @@
-The MIT License (MIT)
+# real-require
 
-Copyright (c) 2021 Paolo Insogna and the real-require contributors
+[![Package Version](https://img.shields.io/npm/v/real-require.svg)](https://npm.im/real-require)
+[![Dependency Status](https://img.shields.io/librariesio/release/npm/real-require)](https://libraries.io/npm/real-require)
+[![Build](https://github.com/pinojs/real-require/workflows/CI/badge.svg)](https://github.com/pinojs/real-require/actions?query=workflow%3ACI)
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Keep require and import consistent after bundling or transpiling.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+## Installation
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Just run:
+
+```bash
+npm install real-require
+```
+
+## Usage
+
+The package provides two drop-ins functions, `realRequire` and `realImport`, which can be used in scenarios where tools like transpilers or bundlers change the native `require` or `await import` calls.
+
+The current `realRequire` functions only handles webpack at the moment, wrapping the `__non_webpack__require__` implementation that webpack provides for the final bundle.
+
+### Example
+
+```js
+// After bundling, real-require will be embedded in the bundle
+const { realImport, realRequire } = require('real-require')
+
+/*
+  By using realRequire, at build time the module will not be embedded and at runtime it will try to load path from the local filesytem.
+  This is useful in situations where the build tool does not support skipping modules to embed.
+*/
+const { join } = realRequire('path')
+
+async function main() {
+  // Similarly, this make sure the import call is not modified by the build tools
+  const localFunction = await realImport('./source.js')
+
+  localFunction()
+}
+
+main().catch(console.error)
+```
+
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md)
+
+## License
+
+Copyright Paolo Insogna and real-require contributors 2021. Licensed under the [MIT License](http://www.apache.org/licenses/MIT).
