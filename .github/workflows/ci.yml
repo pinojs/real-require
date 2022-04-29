@@ -4,6 +4,8 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x, 17.x]
@@ -11,11 +13,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Use Node.js
-        uses: actions/setup-node@v3.1.0
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - name: Restore cached dependencies
-        uses: actions/cache@v3.0.1
+        uses: actions/cache@v3
         with:
           path: node_modules
           key: node-modules-${{ hashFiles('package.json') }}
@@ -27,8 +29,10 @@ jobs:
   automerge:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
     steps:
-      - uses: fastify/github-action-merge-dependabot@v2.7.1
-        if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request' }}
+      - uses: fastify/github-action-merge-dependabot@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
