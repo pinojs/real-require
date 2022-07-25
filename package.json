@@ -1,6 +1,6 @@
 {
   "name": "real-require",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Keep require and import consistent after bundling or transpiling",
   "author": "Paolo Insogna <shogun@cowtech.it>",
   "homepage": "https://github.com/pinojs/real-require",
