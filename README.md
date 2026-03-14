@@ -1,9 +1,5 @@
 # real-require
 
-[![Package Version](https://img.shields.io/npm/v/real-require.svg)](https://npm.im/real-require)
-[![Dependency Status](https://img.shields.io/librariesio/release/npm/real-require)](https://libraries.io/npm/real-require)
-[![Build](https://github.com/pinojs/real-require/workflows/CI/badge.svg)](https://github.com/pinojs/real-require/actions?query=workflow%3ACI)
-
 Keep require and import consistent after bundling or transpiling.
 
 ## Installation
@@ -16,9 +12,13 @@ npm install real-require
 
 ## Usage
 
-The package provides two drop-ins functions, `realRequire` and `realImport`, which can be used in scenarios where tools like transpilers or bundlers change the native `require` or `await import` calls.
+The package provides two drop-ins functions, `realRequire` and `realImport`,
+which can be used in scenarios where tools like transpilers or bundlers change
+the native `require` or `await import` calls.
 
-The current `realRequire` functions only handles webpack at the moment, wrapping the `__non_webpack__require__` implementation that webpack provides for the final bundle.
+The current `realRequire` functions only handles webpack at the moment, wrapping
+the `__non_webpack__require__` implementation that webpack provides for the
+final bundle.
 
 ### Example
 
